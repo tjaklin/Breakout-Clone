@@ -1,0 +1,46 @@
+/*
+bool areColliding(const Collider& a, const Collider& b) {
+    if (a.type() == b.type())
+        switch(a.type()) {
+            case "CircleCollider":
+                SDL_Point difference;
+                difference.x = a.x - b.x; difference.y = a.y - b.y;
+                if (pointLength(difference) < (a.radius() + b.radius()) return true;
+                return false;
+                
+            case "RectCollider":
+                if (SDL_HasIntersection(a, b)) return true;
+                return false;
+        }
+    // Ako nisu istog tipa - nije problem, jer postoje samo 2 tipa
+    // i znam kako pristupiti (unutar else-a)
+    else {
+        const Collider* c;
+        SDL_Point halfRect, cCenter, rCenter;
+        if (a.type() == "RectCollider") {
+            halfRect.x = a.width() / 2 ; halfRect.y = a.height() / 2;
+            rCenter = a.origin();
+            cCenter = b.origin();
+            c = b;
+        }
+        else {
+            halfRect.x = b.width() / 2 ; halfRect.y = b.height() / 2;
+            rCenter = b.origin();
+            cCenter = a.origin();            
+            c = a;
+        }
+        
+        // Oduzmi dvije točke !
+        SDL_Point difference{ cCenter.x - rCenter.x, cCenter.y - rCenter.y };
+        difference.x = std::clamp(difference.x, -halfRect.x, halfRect.x);
+        difference.y = std::clamp(difference.y, -halfRect.y, halfRect.y);
+        // Nađi najbližu rubnu točku !
+        SDL_Point closestPoint;
+        closestPoint.x = rCenter.x + difference.x; closestPoint.y = rCenter.y + difference.y;
+        // Udaljenost te točke od kružnice !
+        difference.x = closestPoint.x - cCenter.x; difference.y = closestPoint.y - cCenter.y;
+        if (pointLength(difference) < c.radius()) return true;
+        else return false;
+    }
+}
+*/ 
