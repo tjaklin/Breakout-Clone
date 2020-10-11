@@ -13,6 +13,7 @@ public:
 
     int width() const;
     int height() const;
+    bool hasTexture() const;
 protected:
     SDL_Texture* texture_m;
     SDL_Rect dstRect_m;

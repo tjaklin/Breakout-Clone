@@ -26,12 +26,11 @@ public:
     ~LevelFactory();
     
     bool addNewLevelTemplate(std::string filePath, std::string id);
-    bool addNewLevelTemplateTest(std::string filePath, std::string id);
     Level* spawnLevelFromTemplate(std::string i, SDL_Point pos, 
                                   const int windowW, const int windowH) const;
     const BrickFactory& getBrickFactory() const;
 private:
-    const LevelTemplate& findLevelTemplate(std::string id) const;
+    const LevelTemplate* findLevelTemplate(std::string id) const;
 private:
     AssetManager* assetManager_m;
     BrickFactory brickFactory_m;

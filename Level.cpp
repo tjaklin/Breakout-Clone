@@ -25,15 +25,22 @@ Level::Level(const SDL_Point pos, const int windowW, const int windowH,
     else std::cout << "\ttexture == nullptr\n";
     std::cout << "\tscale.x/y = " << scale.x << "/" << scale.y << "\n";
     std::cout << "\tbricksLayout.size() = " << bricksLayout.size() << "\n";
-    SDL_Point playerPos{position_m.x + 200, position_m.y + 740};
-    SDL_Point ballPos{playerPos.x, playerPos.y - 100};
+    
+    // Game Objects !
+    
+    float brickAreaWidth = windowW - position_m.x;
+    float brickAreaHeight = windowH * 0.8f;
+    
+    SDL_Point playerPos;
+    playerPos.x = position_m.x + brickAreaWidth*0.45f;
+    playerPos.y = windowH - 25;
+    SDL_Point ballPos{playerPos.x + 30, playerPos.y - 25};
     int playerSpeed{8}, ballSpeed{10};
     int playerHp{3};
     
     renderer_m = assetManager_m->getRenderer();
     font_m = assetManager_m->getFont();
     
-    // Game Objects !
     SDL_Texture* pTexture = nullptr;
     
     pTexture = assetManager_m->getTexture("defaultPlayer");    
@@ -45,20 +52,15 @@ Level::Level(const SDL_Point pos, const int windowW, const int windowH,
     SDL_FPoint wallHorizontalScale{windowW / 640.0f, 1};
     SDL_FPoint wallVerticalScale{1, windowH / 640.0f};
     pTexture = assetManager_m->getTexture("defaultWallV");
-    walls_m[0] = new Wall{SDL_Point{position_m.x -25, 0}, pTexture, wallVerticalScale, "wallW"};
-    walls_m[1] = new Wall{SDL_Point{windowW, 0}, pTexture, wallVerticalScale, "wallE"};
+    walls_m[0] = new Wall{SDL_Point{position_m.x - 25, position_m.y},
+                          pTexture, wallVerticalScale, "wallW"};
+    walls_m[1] = new Wall{SDL_Point{windowW, position_m.y}, pTexture, wallVerticalScale, "wallE"};
     pTexture = assetManager_m->getTexture("defaultWallH");
     walls_m[2] = new Wall{SDL_Point{0, -25}, pTexture, wallHorizontalScale, "wallN"};
     walls_m[3] = new Wall{SDL_Point{0, windowH}, pTexture, wallHorizontalScale, "wallS"};
-    
-    // spawn bricks !
-    // TODO: Znati dimenzije brick-a ? -> SDL_Point brDim{}
-    float levelBrickAreaWidth = windowW - position_m.x;
-    float levelBrickAreaHeight = windowH * 0.8f;
-    
-    float brickWidth = (levelBrickAreaWidth - (columnCount_m - 1) * (columnSpacing_m / 20) )
-                      / columnCount_m;
-    float brickHeight = (levelBrickAreaHeight - (rowCount_m - 1) * (rowSpacing_m / 20) ) / rowCount_m;
+        
+    float brickWidth = ( brickAreaWidth - (columnCount_m-1)*(columnSpacing_m/20) ) / columnCount_m;
+    float brickHeight = ( brickAreaHeight - (rowCount_m-1)*(rowSpacing_m/20) ) / rowCount_m;
     
     SDL_FPoint brickScale{brickWidth / 20, brickHeight / 20};
     
@@ -68,8 +70,8 @@ Level::Level(const SDL_Point pos, const int windowW, const int windowH,
             if (i == 0 || i == rC) spacing.y = 0;
             if (j == 0 || j == cC) spacing.x = 0;
             
-            SDL_Point brickPos{ position_m.x + j*brickWidth + j*spacing.x, 
-                             position_m.y + i*brickHeight + i*spacing.y };
+            SDL_Point brickPos{ position_m.x + j*brickWidth + j*spacing.x,
+                                position_m.y + i*brickHeight + i*spacing.y };
             
             int currentIndex = i*columnCount_m + j;
             if (currentIndex >= bricksLayout_m.size()) break;
@@ -80,25 +82,30 @@ Level::Level(const SDL_Point pos, const int windowW, const int windowH,
     }
     
     // GUI !
-    SDL_Point guiLevelNamePos{10, 230};
     SDL_Point guiScorePos{10, 30};
     SDL_Point guiLivesPos{10, 100};
-    SDL_Point guiStatusPos{windowW*0.5, windowH*0.5};
-    // TTF_SizeText(ttf, "Hello World", &w, &h); // Za nove retke .
-    guiLevelName_m = new Text(renderer_m, font_m, guiLevelNamePos, "Level Name !");
-    guiScore_m = new Text(renderer_m, font_m, guiScorePos, player_m->score());
-    guiLives_m = new Text(renderer_m, font_m, guiLivesPos, player_m->lives());
-    guiPaused_m = new Text(renderer_m, font_m, guiStatusPos, "Game Paused!");
-    guiDefeat_m = new Text(renderer_m, font_m, guiStatusPos,
-                           "You are out of lives! Thanks for playing!");
-    guiVictory_m = new Text(renderer_m, font_m, guiStatusPos, "You won the level !");
+    SDL_Rect guiStatusBannerRect;
+    guiStatusBannerRect.x = position_m.x;
+    guiStatusBannerRect.y = windowH * 0.5f;
+    guiStatusBannerRect.w = brickAreaWidth;
+    guiStatusBannerRect.h = 200;
+
+    guiScore_m = new Text(renderer_m, font_m, guiScorePos);
+    guiScore_m->text(player_m->score());
+    guiLives_m = new Text(renderer_m, font_m, guiLivesPos);
+    guiLives_m->text(player_m->lives());
+    guiPaused_m = new Banner(renderer_m, font_m, guiStatusBannerRect);
+    guiPaused_m->text("Press P to unpause!");
+    guiDefeat_m = new Banner(renderer_m, font_m, guiStatusBannerRect);
+    guiDefeat_m->text("You are out of lives! Thanks for playing!");
+    guiVictory_m = new Banner(renderer_m, font_m, guiStatusBannerRect);
+    guiVictory_m->text("You won the level !");
 }
 Level::~Level() {
     delete player_m;
     delete ball_m;
     for(auto& b : bricks_m) delete b;
     for(auto& w : walls_m) delete w;
-    delete guiLevelName_m;
     delete guiScore_m;
     delete guiLives_m;
     delete guiPaused_m;
@@ -136,7 +143,7 @@ void Level::update() {
             ball_m->onHit(info);
             player_m->addScore(b->onHit());
             ++bricksDestroyed_m;
-            guiScore_m->text(player_m->score(), renderer_m, font_m);
+            guiScore_m->text(player_m->score());
         }
     }
     const CollisionInformation info{ ballCollider.isColliding(playerCollider) };
@@ -151,23 +158,26 @@ void Level::render() {
     for (auto& w : walls_m) w->render(renderer_m);
     player_m->render(renderer_m);
     ball_m->render(renderer_m);
-    guiLevelName_m->render(renderer_m);
-    guiScore_m->render(renderer_m);
-    guiLives_m->render(renderer_m);
-    if (defeat_m) guiDefeat_m->render(renderer_m);
-    else if (victory_m) guiVictory_m->render(renderer_m);
-    else if (paused_m) guiPaused_m->render(renderer_m);
+    guiScore_m->render();
+    guiLives_m->render();
+    if (defeat_m) guiDefeat_m->render();
+    else if (victory_m) guiVictory_m->render();
+    else if (paused_m) guiPaused_m->render();
 }
 void Level::reset() {
     // Ovo se zove na gubitku života !
     ball_m->reset();
     player_m->reset();
-    guiLives_m->text(player_m->lives(), renderer_m, font_m);
-    if (player_m->outOfLives()) { defeat_m = true; pause(); }
-    // Cigle ne resetiram na gubitku života !
-    // Score ne resetiram na gubitku života !
+    guiLives_m->text(player_m->lives());
+    if (player_m->outOfLives()) defeat_m = true;
+    pause();
 }
 void Level::pause() {
-    if (defeat_m || victory_m) { paused_m = true; return; }
+    if (levelOver()) { paused_m = true; return; }
     paused_m = !paused_m;
+}
+bool Level::victory() const {return victory_m;}
+bool Level::levelOver() const {
+    if (defeat_m || victory_m) return true;
+    return false;
 }

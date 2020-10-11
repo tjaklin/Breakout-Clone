@@ -23,6 +23,7 @@ Brick::Brick(SDL_Point pos, int hp, Sound* hSound, Sound* bSound,
     SDL_Log("[Brick] pos.x=%d", position_m.x);
     SDL_Log("[Brick] collider.origin.x/y=%d/%d", collider_m.origin().x, collider_m.origin().y);
     SDL_Log("[Brick] collider.w/h=%d/%d", collider_m.width(), collider_m.height());
+    if (!sprite_m.hasTexture()) destroy();
 }
 Brick::~Brick() {}
 
@@ -32,17 +33,18 @@ void Brick::update() {
     position_m.x += offsetX;
     position_m.y += offsetY;
     collider_m.update(offsetX, offsetY);
-/*
-    if (offsetX!=0 || offsetY!=0) {
-        SDL_Log("[Brick] pos.x=%d",position_m.x);
-        SDL_Log("[Brick] origin.x/y=%d/%d",collider_m.origin().x,collider_m.origin().y);
-    }
-*/
 }
-void Brick::render(SDL_Renderer* renderer) { if (!destroyed_m) sprite_m.render(renderer, position_m); }
+void Brick::render(SDL_Renderer* renderer) {
+    if (!destroyed_m)
+        sprite_m.render(renderer, position_m);
+}
 int Brick::onHit() {
-    if (healthCurrent_m > 0) {healthCurrent_m--; /*hitSound_m.play();*/}
-    if (healthCurrent_m == 0) {destroy(); return breakScore_m;}
+    if (--healthCurrent_m <= 0) {
+        if (breakSound_m) breakSound_m->play();
+        destroy();
+        return breakScore_m;
+    }
+    if (hitSound_m) hitSound_m->play();
     return 0;
 }
 void Brick::destroy() {

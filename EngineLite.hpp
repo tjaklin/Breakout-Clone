@@ -15,7 +15,8 @@ public:
     void update(float deltaTime);
     void render();
 
-    bool running() const {return running_m;}
+    void getNextLevel();
+    bool running() const;
 private:
     SDL_Window* window_m;
     SDL_Renderer* renderer_m;
@@ -25,5 +26,7 @@ private:
     LevelFactory* levelFactory_m;
     std::vector<Level*> levels_m;
     Level* currentLevel_m;
+    
+    Text* guiLevelName_m;
 };
 #endif //ENGINE_LITE_HPP

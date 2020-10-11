@@ -3,27 +3,13 @@ BrickFactory.cpp:42:1: warning: control reaches end of non-void function [-Wretu
    42 | }
       | ^
 Level.cpp: In constructor ‘Level::Level(SDL_Point, int, int, int, int, int, int, AssetManager*, SDL_Texture*, const BrickFactory&, std::vector<std::__cxx11::basic_string<char> >, SDL_FPoint)’:
-Level.cpp:71:61: warning: narrowing conversion of ‘(((float)((Level*)this)->Level::position_m.SDL_Point::x + ((float)j * brickWidth)) + (float)(j *  spacing.SDL_Point::x))’ from ‘float’ to ‘int’ [-Wnarrowing]
-   71 |             SDL_Point brickPos{ position_m.x + j*brickWidth + j*spacing.x,
+Level.cpp:73:61: warning: narrowing conversion of ‘(((float)((Level*)this)->Level::position_m.SDL_Point::x + ((float)j * brickWidth)) + (float)(j *  spacing.SDL_Point::x))’ from ‘float’ to ‘int’ [-Wnarrowing]
+   73 |             SDL_Point brickPos{ position_m.x + j*brickWidth + j*spacing.x,
       |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
-Level.cpp:72:59: warning: narrowing conversion of ‘(((float)((Level*)this)->Level::position_m.SDL_Point::y + ((float)i * brickHeight)) + (float)(i *  spacing.SDL_Point::y))’ from ‘float’ to ‘int’ [-Wnarrowing]
-   72 |                              position_m.y + i*brickHeight + i*spacing.y };
-      |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
-Level.cpp:86:35: warning: narrowing conversion of ‘((double)(int)windowW * 5.0e-1)’ from ‘double’ to ‘int’ [-Wnarrowing]
-   86 |     SDL_Point guiStatusPos{windowW*0.5, windowH*0.5};
-      |                            ~~~~~~~^~~~
-Level.cpp:86:48: warning: narrowing conversion of ‘((double)(int)windowH * 5.0e-1)’ from ‘double’ to ‘int’ [-Wnarrowing]
-   86 |     SDL_Point guiStatusPos{windowW*0.5, windowH*0.5};
-      |                                         ~~~~~~~^~~~
+Level.cpp:74:62: warning: narrowing conversion of ‘(((float)((Level*)this)->Level::position_m.SDL_Point::y + ((float)i * brickHeight)) + (float)(i *  spacing.SDL_Point::y))’ from ‘float’ to ‘int’ [-Wnarrowing]
+   74 |                                 position_m.y + i*brickHeight + i*spacing.y };
+      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
 LevelFactory.cpp: In member function ‘bool LevelFactory::addNewLevelTemplate(std::string, std::string)’:
-LevelFactory.cpp:99:1: warning: control reaches end of non-void function [-Wreturn-type]
-   99 | }
-      | ^
-LevelFactory.cpp: In member function ‘bool LevelFactory::addNewLevelTemplateTest(std::string, std::string)’:
-LevelFactory.cpp:251:1: warning: control reaches end of non-void function [-Wreturn-type]
-  251 | }
-      | ^
-LevelFactory.cpp: In member function ‘const LevelTemplate& LevelFactory::findLevelTemplate(std::string) const’:
-LevelFactory.cpp:277:1: warning: control reaches end of non-void function [-Wreturn-type]
-  277 | }
+LevelFactory.cpp:97:1: warning: control reaches end of non-void function [-Wreturn-type]
+   97 | }
       | ^

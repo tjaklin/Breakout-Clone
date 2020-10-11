@@ -8,6 +8,7 @@
 #include "BrickFactory.hpp"
 #include "Wall.hpp"
 #include "Text.hpp"
+#include "Banner.hpp"
 
 #include <iostream>
 #include <vector>
@@ -27,8 +28,8 @@ public:
     void reset();
     
     void pause();
-    
-    // Ovo koristim za EngineLite::handleEvents() gdje igraču mijenjam velocity.
+    bool victory() const;
+    bool levelOver() const;
     Player* const player() const {return player_m;}
 private:
     const int rowCount_m;
@@ -53,11 +54,10 @@ private:
     Wall* walls_m[4];
     
     TTF_Font* font_m;
-    Text* guiLevelName_m;
     Text* guiScore_m;
     Text* guiLives_m;
-    Text* guiPaused_m;
-    Text* guiDefeat_m;
-    Text* guiVictory_m;
+    Banner* guiPaused_m;
+    Banner* guiDefeat_m;
+    Banner* guiVictory_m;
 };
 #endif // LEVEL_HPP

@@ -8,32 +8,30 @@ RectCollider::~RectCollider() {}
 const CollisionInformation RectCollider::isColliding(const RectCollider& b) const {
 
     if (!b.active()) return CollisionInformation();
-    if (b.id() != "wallW" && b.id() != "wallE") return CollisionInformation();
-//    if (!b.active() || (b.id() != "wallW" && b.id() != "wallE")) return CollisionInformation();
     
     SDL_Point aCenter, bCenter, bHalfDimensions;
     aCenter = origin();
     bCenter = b.origin();
-    std::cout << "aCenter.x/y = " << aCenter.x << " / " << aCenter.y << "\n";
-    std::cout << "bCenter.x/y = " << bCenter.x << " / " << bCenter.y << "\n";
+//    std::cout << "aCenter.x/y = " << aCenter.x << " / " << aCenter.y << "\n";
+//    std::cout << "bCenter.x/y = " << bCenter.x << " / " << bCenter.y << "\n";
 
     bHalfDimensions.x = b.width() / 2 ; bHalfDimensions.y = b.height() / 2;
-    std::cout << "bHalfDimensions.x/y = " << bHalfDimensions.x << " / " << bHalfDimensions.y << "\n";
+//    std::cout << "bHalfDimensions.x/y = " << bHalfDimensions.x << " / " << bHalfDimensions.y << "\n";
     
     SDL_Point difference{ aCenter.x - bCenter.x, aCenter.y - bCenter.y };
     difference.x = std::clamp(difference.x, -bHalfDimensions.x, bHalfDimensions.x);
     difference.y = std::clamp(difference.y, -bHalfDimensions.y, bHalfDimensions.y);
-    std::cout << "difference.x/y = " << difference.x << " / " << difference.y << "\n";
+//    std::cout << "difference.x/y = " << difference.x << " / " << difference.y << "\n";
     
     SDL_Point closestPoint;
     closestPoint.x = bCenter.x + difference.x; closestPoint.y = bCenter.y + difference.y;
     difference.x = closestPoint.x - aCenter.x; difference.y = closestPoint.y - aCenter.y;
-    std::cout << "closestPoint.x/y = " << closestPoint.x << " / " << closestPoint.y << "\n";
+//    std::cout << "closestPoint.x/y = " << closestPoint.x << " / " << closestPoint.y << "\n";
     
     bool collisionX = std::abs(difference.x) <= (rect_m.w / 2);
     bool collisionY = std::abs(difference.y) <= (rect_m.h / 2);
-    std::cout << collisionX << " = " << std::abs(difference.x) << " <= " << (rect_m.w / 2) << "\n";
-    std::cout << collisionY << " = " << std::abs(difference.y) << " <= " << (rect_m.h / 2) << "\n";
+//    std::cout << collisionX << " = " << std::abs(difference.x) << " <= " << (rect_m.w / 2) << "\n";
+//    std::cout << collisionY << " = " << std::abs(difference.y) << " <= " << (rect_m.h / 2) << "\n";
     
     CollisionInformation info;
     if (collisionX && collisionY) {

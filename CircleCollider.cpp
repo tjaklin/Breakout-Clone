@@ -31,13 +31,12 @@ const CollisionInformation CircleCollider::isColliding(const RectCollider& b) co
     CollisionInformation info;
     if (pointLength(difference) < radius_m) {
         info.isColliding = true;
-        SDL_Log("Colliding !");
         info.collidedWith = b.id();
         info.contactPoint.x = difference.x;
         info.contactPoint.y = difference.y;
+
         if (info.collidedWith == "player")
-            info.additionalVelocity.x = (closestPoint.x - rCenter.x) / static_cast<float>(halfRect.x*2);
-        //info.additionalVelocity.y = 0.0;  // Je već zadana vrijednost.
+            info.additionalVelocity.x = (closestPoint.x - rCenter.x) / static_cast<float>(halfRect.x*4);
         SDL_Log("[circle collision] with '%s'\n", b.id().c_str());
     }
     return info;
