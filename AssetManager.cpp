@@ -7,12 +7,12 @@ AssetManager::~AssetManager() {
     for (auto const& s : sounds_m) delete s.second;
     textures_m.clear();
     sounds_m.clear();
-    if (font_m != nullptr) TTF_CloseFont(font_m);
+    if (font_m) TTF_CloseFont(font_m);
 }
 
 // LOADER METODE !
 bool AssetManager::loadFont(std::string filePath, int fontSize) {
-    if (font_m != nullptr) {TTF_CloseFont(font_m); font_m = nullptr;}
+    if (font_m) {TTF_CloseFont(font_m); font_m = nullptr;}
     
     TTF_Font* newFont = nullptr;
     newFont = TTF_OpenFont(filePath.c_str(), fontSize);
@@ -82,22 +82,6 @@ Sound* AssetManager::getSound(std::string id) {
 TTF_Font* AssetManager::getFont() {
     return font_m;
 }
-/*
-std::string AssetManager::generateAssetId(std::string name) {
-    std::string delimiter = "/";
-    size_t pos = 0;
-    std::string result;
-    
-    while ((pos = name.find(delimiter)) != std::string::npos) {
-        result = name.substr(0, pos);
-        name.erase(0, pos + delimiter.length());
-    }
-    // Ovo bi trebalo iz cijelog filePath-a vratiti samo ime datoteke:
-    // 'a/b/c.wav' -> 'c.wav'
-    return result;
-}
-*/
-
 
 
 

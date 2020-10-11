@@ -22,12 +22,6 @@ Wall::Wall(SDL_Point pos, SDL_Texture* texture, SDL_FPoint scale, const char* co
 }
 Wall::~Wall() {}
 
-void Wall::update() {
-    int offsetX = 0;
-    int offsetY = 0;
-    position_m.x += offsetX;
-    position_m.y += offsetY;
-    collider_m.update(offsetX, offsetY);
-}
+void Wall::update() {}
 void Wall::render(SDL_Renderer* renderer) { sprite_m.render(renderer, position_m); }
 const RectCollider& Wall::collider() const {return collider_m;}

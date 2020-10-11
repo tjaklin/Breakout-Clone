@@ -52,10 +52,5 @@ void Brick::destroy() {
     destroyed_m = true;
     collider_m.active(false);
 }
-void Brick::reset() {
-    if (!destroyed_m) return;
-    destroyed_m = false;
-    healthCurrent_m = healthMax_m;
-    collider_m.active(true);
-}
 const RectCollider& Brick::collider() const {return collider_m;}
+bool Brick::destroyed() const {return destroyed_m;}

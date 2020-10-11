@@ -1,7 +1,3 @@
-BrickFactory.cpp: In member function ‘const BrickTemplate& BrickFactory::findBrickTemplate(std::string) const’:
-BrickFactory.cpp:42:1: warning: control reaches end of non-void function [-Wreturn-type]
-   42 | }
-      | ^
 Level.cpp: In constructor ‘Level::Level(SDL_Point, int, int, int, int, int, int, AssetManager*, SDL_Texture*, const BrickFactory&, std::vector<std::__cxx11::basic_string<char> >, SDL_FPoint)’:
 Level.cpp:73:61: warning: narrowing conversion of ‘(((float)((Level*)this)->Level::position_m.SDL_Point::x + ((float)j * brickWidth)) + (float)(j *  spacing.SDL_Point::x))’ from ‘float’ to ‘int’ [-Wnarrowing]
    73 |             SDL_Point brickPos{ position_m.x + j*brickWidth + j*spacing.x,
@@ -10,6 +6,6 @@ Level.cpp:74:62: warning: narrowing conversion of ‘(((float)((Level*)this)->Le
    74 |                                 position_m.y + i*brickHeight + i*spacing.y };
       |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
 LevelFactory.cpp: In member function ‘bool LevelFactory::addNewLevelTemplate(std::string, std::string)’:
-LevelFactory.cpp:97:1: warning: control reaches end of non-void function [-Wreturn-type]
-   97 | }
+LevelFactory.cpp:100:1: warning: control reaches end of non-void function [-Wreturn-type]
+  100 | }
       | ^

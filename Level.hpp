@@ -43,7 +43,6 @@ private:
     bool paused_m;
     bool victory_m;
     bool defeat_m;
-    int bricksDestroyed_m;
     AssetManager* assetManager_m;
     SDL_Renderer* renderer_m;
     

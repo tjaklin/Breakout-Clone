@@ -10,8 +10,6 @@
 
 #include "Sound.hpp"
 
-// https://stackoverflow.com/questions/1008019/c-singleton-design-pattern
-
 class AssetManager
 {
 public:
@@ -27,7 +25,6 @@ public:
     Sound* getSound(std::string id);
     TTF_Font* getFont();
 
-//    std::string generateAssetId(std::string name);    
 private:
     std::map<std::string, SDL_Texture*> textures_m;
     std::map<std::string, Sound*> sounds_m;

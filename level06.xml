@@ -1,22 +1,22 @@
 <?xml version="1.0" ?>
 <Level
-    RowCount="3"
-    ColumnCount="10"
-    RowSpacing="50"
-    ColumnSpacing="10"
-    BackgroundTexture="Textures/Boards/Board_01.bmp">
+    RowCount="tri"
+    ColumnCount="deset"
+    RowSpacing="pedeset"
+    ColumnSpacing="deset"
+    BackgroundTexture="Textures/Boards/Board_011.bmp">
     <BrickTypes>
         <!-- Soft Brick -->
-        <BrickType
+        <BrickTypeQ
             Id="x"
             Texture="Textures/Bricks/Soft.bmp"
-            HitPoints="1"
+            HitPoints="jedan"
             HitSound="Sounds/Hit_01.wav"
             BreakSound="Sounds/Break_01.wav"
             BreakScore="50" />
     </BrickTypes>
     <Bricks>
-        x _ _ x x x _ _ x
+        x _ _ x x x _ y x
         _ _ _ _ _ _ _ x _
         x _ x _ x _ x _ x
     </Bircks>

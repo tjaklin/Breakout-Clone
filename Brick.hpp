@@ -15,9 +15,9 @@ public:
     void render(SDL_Renderer* renderer);
     int onHit();
     void destroy();
-    void reset();
     
     const RectCollider& collider() const;
+    bool destroyed() const;
 private:
     SDL_Point position_m;
     Sprite sprite_m;

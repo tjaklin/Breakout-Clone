@@ -25,9 +25,8 @@ public:
     void addNewBrickTemplate(std::string i, std::string tPath, std::string hP,
                              std::string hSPath, std::string bSPath, int bS);
     Brick* spawnBrickFromTemplate(std::string i, SDL_Point pos, SDL_FPoint scale) const;
-    //std::vector<Brick*> spawnBricksFromLayout(std::vector<std::string> bricksLayout);
 private:
-    const BrickTemplate& findBrickTemplate(std::string id) const;
+    const BrickTemplate* findBrickTemplate(std::string id) const;
 
 private:
     AssetManager* assetManager_m;

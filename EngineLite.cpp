@@ -8,11 +8,11 @@ EngineLite::EngineLite()
 {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
         std::cout << "[engine] Failed on SDL_Init() !\n";
-        return;
+        throw std::runtime_error{"SDL_Init()"};
     }
     if (TTF_Init() != 0 ) {
         std::cout << "[engine] Failed on TTF_Init() !\n";
-        return;
+        throw std::runtime_error{"TTF_Init()"};
     }
     
     const int windowW = 1024;
@@ -22,17 +22,17 @@ EngineLite::EngineLite()
                                 windowW, windowH, SDL_WINDOW_SHOWN);
     if (window_m == nullptr) {
         std::cout << "[engine] Failed on SDL_CreateWindow() !\n";
-        return;
+        throw std::runtime_error{"SDL_CreateWindow()"};
     }
     renderer_m = SDL_CreateRenderer(window_m, -1, SDL_RENDERER_ACCELERATED);
     if (renderer_m == nullptr) {
         std::cout << "[engine] Failed on SDL_CreateRenderer() !\n";
-        return;
+        throw std::runtime_error{"SDL_CreateRenderer()"};
     }
     assetManager_m = new AssetManager(renderer_m);
     if (assetManager_m == nullptr) {
         std::cout << "[engine] Failed on new AssetManager(...) !\n";
-        return;
+        throw std::runtime_error{"AssetManager(...)"};
     }
     int fontSize = 0.025 * windowW;
     if (!assetManager_m->loadFont("./myFont.ttf", fontSize)) std::cout << "loadFont() Failed !\n";
@@ -53,19 +53,23 @@ EngineLite::EngineLite()
     levelFactory_m = new LevelFactory(assetManager_m);
     if (levelFactory_m == nullptr) {
         std::cout << "[engine] Failed on new LevelFactory(...) !\n";
-        return;
+        throw std::runtime_error{"LevelFactory(...)"};
     }
     //levelFactory_m->addNewLevelTemplate("level01.xml", "1");
     levelFactory_m->addNewLevelTemplate("level02.xml", "2");
     levelFactory_m->addNewLevelTemplate("level03.xml", "3");
     levelFactory_m->addNewLevelTemplate("level04.xml", "4");
     levelFactory_m->addNewLevelTemplate("level05.xml", "5");
+    levelFactory_m->addNewLevelTemplate("level06.xml", "6");
     
     SDL_Point levelPos;
     levelPos.x = windowW * 0.25f;
     levelPos.y = 0;
     
     Level* pLevel = nullptr;
+    pLevel = levelFactory_m->spawnLevelFromTemplate("6", levelPos, windowW, windowH);
+    if (pLevel != nullptr) 
+        levels_m.push_back(pLevel);
     pLevel = levelFactory_m->spawnLevelFromTemplate("5", levelPos, windowW, windowH);
     if (pLevel != nullptr) 
         levels_m.push_back(pLevel);
@@ -82,7 +86,7 @@ EngineLite::EngineLite()
     guiLevelName_m = new Text(renderer_m, assetManager_m->getFont(), SDL_Point{10, 230});
     if (guiLevelName_m == nullptr) {
         std::cout << "[engine] Failed on new Text(...) !\n";
-        return;
+        throw std::runtime_error{"Text(...)"};
     }
     getNextLevel();
 }
@@ -126,6 +130,7 @@ void EngineLite::handleEvents() {
 void EngineLite::update(float deltaTime) {
     if (currentLevel_m == nullptr) return;
     else if (currentLevel_m->victory()) {
+        // Pričekaj 1s da se igrač pripremi.
         SDL_Delay(1000);
         getNextLevel();
     }
@@ -147,7 +152,6 @@ void EngineLite::getNextLevel() {
             currentLevel_m = levels_m.at(i);
             std::string levelName = "Level " + std::to_string(i+1) + "/" +
                                     std::to_string(levels_m.size());
-            std::cout << "levelName = " << levelName << "!\n";
             guiLevelName_m->text(levelName);
             return;
         }

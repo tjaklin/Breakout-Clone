@@ -28,11 +28,6 @@ void Player::update() {
     int offsetX = velocity_m.x * speed_m;
     int offsetY = velocity_m.y * speed_m;
     moveBy( SDL_Point{offsetX, offsetY} );
-
-//     if (offsetX!=0 || offsetY!=0) {
-//         SDL_Log("[Player] pos.x/y=%d/%d", position_m.x, position_m.y);
-//         SDL_Log("[Player] origin.x/y=%d/%d", collider_m.origin().x, collider_m.origin().y);
-//     }
 }
 void Player::render(SDL_Renderer* renderer) {sprite_m.render(renderer, position_m);}
 void Player::onHit(const CollisionInformation& info) {

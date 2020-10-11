@@ -6,7 +6,7 @@ CircleCollider::CircleCollider(SDL_Point o, int r, std::string id)
 CircleCollider::~CircleCollider() {}
 
 const CollisionInformation CircleCollider::isColliding(const RectCollider& b) const {
-
+    // Ako RectCollider nije aktivan - ignoriramo ga.
     if ( !b.active() ) return CollisionInformation();
     
     SDL_Point halfRect, cCenter, rCenter;
@@ -16,17 +16,13 @@ const CollisionInformation CircleCollider::isColliding(const RectCollider& b) co
     
     // Oduzmi dvije točke !
     SDL_Point difference{ cCenter.x - rCenter.x, cCenter.y - rCenter.y };
-//    SDL_Log("[col]1)diff.x/y=%d/%d", difference.x, difference.y);
     difference.x = std::clamp(difference.x, -halfRect.x, halfRect.x);
     difference.y = std::clamp(difference.y, -halfRect.y, halfRect.y);
     // Nađi najbližu rubnu točku !
     SDL_Point closestPoint;
     closestPoint.x = rCenter.x + difference.x; closestPoint.y = rCenter.y + difference.y;
-//    SDL_Log("[col]2)closest.x/y=%d/%d", closestPoint.x, closestPoint.y);
     // Udaljenost te točke od kružnice !
     difference.x = closestPoint.x - cCenter.x; difference.y = closestPoint.y - cCenter.y;
-//    SDL_Log("[col]3)diff.x/y=%d/%d", difference.x, difference.y);
-//    SDL_Log("[col]4)%f<%d", pointLength(difference), radius_m);
 
     CollisionInformation info;
     if (pointLength(difference) < radius_m) {
@@ -34,7 +30,8 @@ const CollisionInformation CircleCollider::isColliding(const RectCollider& b) co
         info.collidedWith = b.id();
         info.contactPoint.x = difference.x;
         info.contactPoint.y = difference.y;
-
+        // Kada se loptica odbije od splava, želimo joj dati dodatno ubrzanje u određenom smjeru.
+        // Taj smjer ovisi o točki na splavu u kojoj se dogodio udarac.
         if (info.collidedWith == "player")
             info.additionalVelocity.x = (closestPoint.x - rCenter.x) / static_cast<float>(halfRect.x*4);
         SDL_Log("[circle collision] with '%s'\n", b.id().c_str());

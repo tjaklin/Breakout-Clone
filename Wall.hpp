@@ -6,7 +6,8 @@
 
 class Wall{
 public:
-    Wall(SDL_Point pos, SDL_Texture* texture, SDL_FPoint scale = {1, 1}, const char* colliderId = "wall");
+    Wall(SDL_Point pos, SDL_Texture* texture, SDL_FPoint scale = {1, 1},
+         const char* colliderId = "wall");
     ~Wall();
 
     void update();

@@ -2,7 +2,10 @@
 
 LevelFactory::LevelFactory(AssetManager* aM)
     : assetManager_m{aM}, brickFactory_m{aM}
-{}
+{
+    // Definiranje zadanog tipa cigle.
+    brickFactory_m.addNewBrickTemplate("_", "", "0", "", "", 0);
+}
 LevelFactory::~LevelFactory() {}
 
 bool LevelFactory::addNewLevelTemplate(std::string filePath, std::string id)
@@ -99,11 +102,6 @@ bool LevelFactory::addNewLevelTemplate(std::string filePath, std::string id)
 Level* LevelFactory::spawnLevelFromTemplate(std::string i, SDL_Point pos,
                                             const int windowW, const int windowH) const
 {
-    // TODO: Provjeru ovog 'i' stringa, jer moguće da pošaljem nepostojeći id !
-//     std::cout << "[levelFactory] spawn():\n";
-//     std::cout << "\tid = '" << i << "'.\n";
-//     std::cout << "\tpos.x/y = " << pos.x << "/" << pos.y << ".\n";
-//     std::cout << "\twindow.w/h = " << windowW << "/" << windowH << ".\n";
     if (!assetManager_m) return nullptr;
     
     const LevelTemplate* lT{ findLevelTemplate(i) };
@@ -117,7 +115,6 @@ Level* LevelFactory::spawnLevelFromTemplate(std::string i, SDL_Point pos,
     return newLevel;
 }
 const BrickFactory& LevelFactory::getBrickFactory() const {return brickFactory_m;}
-
 const LevelTemplate* LevelFactory::findLevelTemplate(std::string id) const {
     for (auto& lT : levelTemplates_m) if (lT.id == id) return &lT;
     return nullptr;

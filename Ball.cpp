@@ -22,13 +22,7 @@ Ball::~Ball() {}
 void Ball::update() {
     int offsetX = velocity_m.x * speed_m;
     int offsetY = velocity_m.y * speed_m;
-    moveBy( SDL_Point{offsetX, offsetY} );
-
-    if (offsetX!=0 || offsetY!=0) {
-        SDL_Log("[Ball] pos.x=%d",position_m.x);
-        SDL_Log("[Ball] origin.x/y=%d/%d",collider_m.origin().x,collider_m.origin().y);
-    }
-    
+    moveBy( SDL_Point{offsetX, offsetY} );    
 }
 void Ball::render(SDL_Renderer* renderer) {sprite_m.render(renderer, position_m);}
 const CircleCollider& Ball::collider() const {return collider_m;}
@@ -43,20 +37,6 @@ void Ball::onHit(const CollisionInformation& info) {
     
     velocity_m.x = std::clamp(velocity_m.x + directionX, -0.5f, 0.5f) + info.additionalVelocity.x;
     velocity_m.y = std::clamp(velocity_m.y + directionY, -0.5f, 0.5f) + info.additionalVelocity.y;
-    if (info.collidedWith == "player" || info.collidedWith == "wallW" || info.collidedWith == "wallE") {
-        std::cout << "velocity_m.x = (" << velocityOldX << "+" << directionX
-        << + ") + " << info.additionalVelocity.x << "\n";
-        std::cout << "velocity_m.y = (" << velocityOldY << "+" << directionY
-        << + ") + " << info.additionalVelocity.y << "\n";
-    }
-
-//     if (info.additionalVelocity != 0) velocity_m.x = info.additionalVelocity;
-//     else if (directionX != 0.0) velocity_m.x = directionX;
-//     if (directionX != 0.0 || ) velocity_m.x = directionX;
-//     if (directionY != 0.0) velocity_m.y = directionY;
-    
-//    SDL_Log("[Ball] onHit(): contactPoint.x/.y = %d/%d", info.contactPoint.x, info.contactPoint.y);
-//    SDL_Log("[Ball] onHit(): velocity_m.x/.h = %f/%f", velocity_m.x, velocity_m.y);
 }
 void Ball::reset() {
     moveTo(initialPosition_m);

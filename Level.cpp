@@ -7,7 +7,7 @@ Level::Level(const SDL_Point pos, const int windowW, const int windowH,
              std::vector<std::string> bricksLayout, SDL_FPoint scale)
 
     :   position_m{pos}, rowCount_m{rC}, columnCount_m{cC},
-        rowSpacing_m{rS}, columnSpacing_m{cS}, bricksDestroyed_m{0},
+        rowSpacing_m{rS}, columnSpacing_m{cS},
         paused_m{false}, victory_m{false}, defeat_m{false},
         assetManager_m{aManager}, sprite_m{texture, scale},
         bricksLayout_m{bricksLayout}
@@ -26,7 +26,7 @@ Level::Level(const SDL_Point pos, const int windowW, const int windowH,
     std::cout << "\tscale.x/y = " << scale.x << "/" << scale.y << "\n";
     std::cout << "\tbricksLayout.size() = " << bricksLayout.size() << "\n";
     
-    // Game Objects !
+    // Create Game Objects !
     
     float brickAreaWidth = windowW - position_m.x;
     float brickAreaHeight = windowH * 0.8f;
@@ -81,7 +81,7 @@ Level::Level(const SDL_Point pos, const int windowW, const int windowH,
             //bricks_m.push_back( new Brick{brPos, 1, pTexture, brScale} );
     }
     
-    // GUI !
+    // Create GUI !
     SDL_Point guiScorePos{10, 30};
     SDL_Point guiLivesPos{10, 100};
     SDL_Rect guiStatusBannerRect;
@@ -116,13 +116,12 @@ Level::~Level() {
 void Level::update() {
     // Prvo ažuriramo objekte.
     if (paused_m) return;
-
+    int bricksDestroyed = 0;
     player_m->update();
     ball_m->update();
     for (auto& b : bricks_m) b->update();
-    for (auto& w : walls_m) w->update();
     
-    // Zatim radim 'collision detection'
+    // Zatim 'collision detection'
     const CircleCollider& ballCollider{ball_m->collider()};
     const RectCollider& playerCollider{player_m->collider()};
 
@@ -142,15 +141,16 @@ void Level::update() {
         if (info.isColliding) {
             ball_m->onHit(info);
             player_m->addScore(b->onHit());
-            ++bricksDestroyed_m;
             guiScore_m->text(player_m->score());
         }
+        if (b->destroyed()) ++bricksDestroyed;
     }
     const CollisionInformation info{ ballCollider.isColliding(playerCollider) };
     if (info.isColliding)
         ball_m->onHit(info);
-    
-    if (bricksDestroyed_m >= bricks_m.size()) { victory_m = true; pause(); }
+
+    // Na kraju - jesu li sve cigle razbijene ?
+    if (bricksDestroyed >= bricks_m.size()) { victory_m = true; pause(); }
 }
 void Level::render() {
     sprite_m.render(renderer_m, position_m);
@@ -165,7 +165,7 @@ void Level::render() {
     else if (paused_m) guiPaused_m->render();
 }
 void Level::reset() {
-    // Ovo se zove na gubitku života !
+    // Metoda se zove prilikom gubitka života.
     ball_m->reset();
     player_m->reset();
     guiLives_m->text(player_m->lives());

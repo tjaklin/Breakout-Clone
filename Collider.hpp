@@ -26,7 +26,6 @@ public:
     bool active() const;
     SDL_Point origin() const;
     std::string id() const;
-    // TODO: Ovaj pointLength može biti i static !
     float pointLength(const SDL_Point& p) const;
 protected:
     SDL_Point origin_m;
