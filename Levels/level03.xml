@@ -1,10 +1,10 @@
 <?xml version="1.0" ?>
 <Level
-    RowCount="30"
-    ColumnCount="20"
-    RowSpacing="3"
-    ColumnSpacing="3"
-    BackgroundTexture="Textures/Boards/Board_01.bmp">
+    RowCount="25"
+    ColumnCount="15"
+    RowSpacing="10"
+    ColumnSpacing="10"
+    BackgroundTexture="Textures/Boards/Board_02.bmp">
     <BrickTypes>
         <!-- Soft Brick -->
         <BrickType
@@ -38,8 +38,15 @@
             HitSound="Sounds/Hit_04.wav" />
     </BrickTypes>
     <Bricks>
-        H H H H H H H H H H H H H H H H H H H H
-        M M I I M M M M M M M M M M M M I I M M
-        S S S S S S S S S S S S S S S S S S S S
+        _ _ _ _ S S S S S S S _ _ _ _
+        S S S S _ _ _ _ _ _  S S S S
+        S I I S S S H H H S S S I I S
+        M _ _ _ S S M H M S S _ _ _ M
+        S S S S S M M M M M M S S S S
+        _ _ _ _ I S H _ _ H S I _ _ _
+        _ S S S S _ _ S S _ _ S S S _
+        _ I I S S S S H H S S S I I _
+        S S S S S S S S S S S S S S S
+        _ _ _ S M S S S S S M _ _ _ _
     </Bircks>
 </Level>
