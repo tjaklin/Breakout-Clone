@@ -2,8 +2,7 @@
 Breakout Clone (C++, SDL2, TinyXML)
 
 Korišteni alati:
-
- * g++ (kompajlirano sa -std=c++17)
+ * g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0 (Korištena zastava -std=c++17)
  * SDL2 2.0.12
  * SDL2_image 2.0.5
  * SDL2_ttf 2.0.15
