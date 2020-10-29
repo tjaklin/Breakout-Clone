@@ -1,12 +1,12 @@
 # Breakout-Clone
 Breakout Clone (C++, SDL2, TinyXML)
 
-Korišteni alati:
- * g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0 (Korištena zastava -std=c++17)
+Tools used:
+ * g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0 (using flag: -std=c++17)
  * SDL2 2.0.12
  * SDL2_image 2.0.5
  * SDL2_ttf 2.0.15
  * TinyXml 2.6.2
  
- "a.out" je kompajlirani program.
- Rekompajlirajte sa "g++ -std=c++17 *.cpp -lSDL2 -lSDL2_image -lSDL2_ttf -ltinyxml"
+ "a.out" is the executable.
+ Compiled and linked with: "g++ -std=c++17 *.cpp -lSDL2 -lSDL2_image -lSDL2_ttf -ltinyxml"
