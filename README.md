@@ -10,3 +10,5 @@ Tools used:
  
  "a.out" is the executable.
  Compiled and linked with: "g++ -std=c++17 *.cpp -lSDL2 -lSDL2_image -lSDL2_ttf -ltinyxml"
+
+Demo video (Some sound effects are too loud!): https://youtu.be/K5gVO91vHzA
